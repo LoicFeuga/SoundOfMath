@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Document</title>
+
+    </head>
+    <body>
+
+        <h1 onclick="run()">Son</h1>
+
+        <script>
+
+            let notes = ["A-1","B-1","C#0","D0","E0","F#0","G#0","A#0","C1","D1","E1","F#1","G1","A1","B1","C#2",
+            "D#2","F2","G2","A2","B2","C#3","D#3","F3","G3","A3","B3","C#4","D#4","F4","G4","A4","B4","C#5","D#5","F5","G5","A5","B5",
+            "C#6","D#6","F6","G6","A6","B6"]
+
+            notes = notes.reverse();
+            function run() {
+
+                var piano = SampleLibrary.load({
+                    instruments: "piano"
+                });
+                piano.toMaster();
+
+                const synth = new Tone.Synth().toDestination();
+
+
+                function nbrPremier(nbr) {
+                    for (var i = 2; i < nbr; i++)
+                        if (nbr % i === 0) return false;
+                    return nbr > 1;
+                }
+
+
+                let i = 2;
+                // let nbr = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71];
+                let nbr = [];
+
+                setInterval(() => {
+
+                    if (nbrPremier(i)) {
+                        nbr.push(i);
+                    }
+                        console.log(nbr);
+                        
+                        for (let j = 0; j < nbr.length; j++) {
+                            if (i % nbr[j] === 0) {
+                                // sound.play("fa.mp3");
+                                piano.triggerAttackRelease(notes[j * 3], "8n");
+
+                            }
+                        }
+
+
+                    i++
+                }, 200);
+            }
+
+
+        </script>
+        <script type="module" src="/node_modules/tone/build/Tone.js"></script>
+        <script type="text/javascript" src="/instrument.js"></script>
+
+
+    </body>
+</html>
